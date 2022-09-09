@@ -1,7 +1,7 @@
 import express from 'express'
 import {engine} from 'express-handlebars'
 import { getFrase, getFrasePelicula, getFraseGraciosa } from './lib/frases.js'
-
+import bodyParser from 'body-parser'
 
 const app = express()
 
@@ -13,11 +13,20 @@ app.set('view engine', 'handlebars')
 app.set('views','./views')
 app.disable('x-powered-by')
 app.use(express.static('public'))
-
+app.use(bodyParser.json())
 
 
 app.get('/',(req,res)=>{
     res.render('home')
+})
+app.post('/process',(req,res)=>{
+    console.log("Nombre: "+req.body.nombre)
+    console.log("Edad: "+req.body.edad)
+    console.log("Email: "+req.body.email)
+    console.log("Domicilio: "+req.body.domicilio)
+
+
+    res.send({result:'todo bien!'})
 })
 app.get('/motivacionales',(req,res)=>{
         res.render('about', {frase:getFrase()})
